@@ -1,0 +1,35 @@
+-- Ryley Reid rreid73 part 1
+-- make new database
+SHOW DATABASES;
+DROP DATABASE IF EXISTS rreid73assign2db;
+CREATE DATABASE rreid73assign2db;
+USE rreid73assign2db;
+
+-- give TA's permissions 
+GRANT USAGE ON *.* TO 'ta'@'localhost';
+DROP USER 'ta'@'localhost';
+CREATE USER 'ta'@'localhost' IDENTIFIED BY 'cs3319';
+GRANT ALL PRIVILEGES ON yourwesternuseridassign2db.* TO 'ta'@'localhost';
+FLUSH PRIVILEGES;
+
+SHOW TABLES;
+-- create product table
+CREATE TABLE product(PID CHAR(2) NOT NULL, description VARCHAR(20), price FLOAT(8,2), quantity INT UNSIGNED, 
+		PRIMARY KEY (PID));
+
+-- create table of agents
+CREATE TABLE agent(AID CHAR(2) NOT NULL, firstname VARCHAR(30), lastname VARCHAR(30), city VARCHAR(15), commission INT(3) UNSIGNED, 
+		PRIMARY KEY (AID));
+
+-- create table of customers with an agent foregin key 
+CREATE TABLE customer(CID CHAR(2) NOT NULL, firstname VARCHAR(30), lastname VARCHAR(30), city VARCHAR(15), phoneNUM CHAR(8), agentID CHAR(2) NOT NULL,
+		PRIMARY KEY (CID), 
+		FOREIGN KEY (agentID) REFERENCES agent(AID));
+
+-- create table for all purchases with product and customer ID as forgien keys and the primary keys
+CREATE TABLE purchases( Customer CHAR(2) NOT NULL, amount INT UNSIGNED, Product CHAR(2) NOT NULL, 
+		PRIMARY  KEY (Product, Customer),
+		FOREIGN  KEY (Customer) REFERENCES customer(CID),
+		FOREIGN  KEY (Product)  REFERENCES product(PID));
+
+SHOW TABLES;

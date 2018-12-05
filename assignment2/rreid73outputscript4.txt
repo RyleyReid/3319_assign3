@@ -1,0 +1,109 @@
+Warning: Using a password on the command line interface can be insecure.
+--------------
+SELECT *FROM product
+--------------
+
+PID	description	price	quantity
+11	Bike	150.00	200
+12	Socks	2.00	100
+33	hat	10.25	100
+66	Elbow pads	14.25	120
+78	Knee Pads	12.15	70
+88	Roller Blades	75.00	89
+99	Helmet	29.00	30
+--------------
+SELECT *FROM customer
+--------------
+
+CID	firstname	lastname	city	phoneNUM	agentID
+10	Barney	Rubble	Boston	777-1234	11
+12	Monty	Burns	Springfield	789-0000	99
+13	Wonder	Woman	Kypto	888-1234	33
+14	Peter	Griffens	Providence	987-4567	99
+15	Fred	Flintstone	Boston	777-2345	11
+21	Homer	Simpson	Springfield	686-8956	99
+31	Sideshow	Bob	Springfield	686-5555	66
+--------------
+SELECT *FROM purchases
+--------------
+
+Customer	amount	Product
+14	14	12
+31	5	12
+10	10	66
+14	19	66
+15	2	66
+31	5	66
+15	2	78
+31	5	78
+21	20	99
+31	5	99
+--------------
+SELECT *FROM agent
+--------------
+
+AID	firstname	lastname	city	commission
+11	Regis	Philbin	Boston	33
+12	Rosie	Cox	Ottawa	50
+22	Courtney	Cox	New York	25
+33	David	Letterman	Bedrock	100
+55	Ryley	Reid	Whitby	1
+66	Rosie	ODonnell	Ottawa	100
+99	Hugh	Grant	Springfield	16
+--------------
+CREATE VIEW shoping AS 
+SELECT c.firstname, c.lastname, p.description, pur.amount, pur.amount * p.price price 
+FROM product p, customer c, purchases pur WHERE c.CID = pur.Customer AND p.PID = pur.Product ORDER BY c.lastname
+--------------
+
+--------------
+SELECT *FROM shoping
+--------------
+
+firstname	lastname	description	amount	price
+Sideshow	Bob	Socks	5	10.00
+Sideshow	Bob	Elbow pads	5	71.25
+Sideshow	Bob	Knee Pads	5	60.75
+Sideshow	Bob	Helmet	5	145.00
+Fred	Flintstone	Elbow pads	2	28.50
+Fred	Flintstone	Knee Pads	2	24.30
+Peter	Griffens	Socks	14	28.00
+Peter	Griffens	Elbow pads	19	270.75
+Barney	Rubble	Elbow pads	10	142.50
+Homer	Simpson	Helmet	20	580.00
+--------------
+SELECT *FROM shoping WHERE price > 100
+--------------
+
+firstname	lastname	description	amount	price
+Sideshow	Bob	Helmet	5	145.00
+Peter	Griffens	Elbow pads	19	270.75
+Barney	Rubble	Elbow pads	10	142.50
+Homer	Simpson	Helmet	20	580.00
+--------------
+SELECT *FROM product
+--------------
+
+PID	description	price	quantity
+11	Bike	150.00	200
+12	Socks	2.00	100
+33	hat	10.25	100
+66	Elbow pads	14.25	120
+78	Knee Pads	12.15	70
+88	Roller Blades	75.00	89
+99	Helmet	29.00	30
+--------------
+DELETE FROM product WHERE description = "hat"
+--------------
+
+--------------
+SELECT *from product
+--------------
+
+PID	description	price	quantity
+11	Bike	150.00	200
+12	Socks	2.00	100
+66	Elbow pads	14.25	120
+78	Knee Pads	12.15	70
+88	Roller Blades	75.00	89
+99	Helmet	29.00	30

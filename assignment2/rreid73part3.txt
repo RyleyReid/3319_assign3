@@ -1,0 +1,62 @@
+-- Ryley Reid rreid73 part 3
+USE rreid73assign2db
+
+-- Query 1
+
+SELECT DISTINCT description FROM product;
+
+-- Query 2
+
+SELECT DISTINCT city FROM customer; 
+
+-- Query 3
+
+SELECT *FROM agent ORDER BY city;
+
+-- Query 4 
+
+SELECT firstname, lastname FROM customer WHERE city = "Springfield";
+
+-- Query 5 
+
+SELECT lastname FROM customer WHERE agentID =(SELECT AID FROM agent WHERE firstname = "Regis");
+
+-- Query 6
+
+SELECT description FROM product WHERE description LIKE "%Pad%" OR description LIKE "%pad%";
+
+-- Query 7
+
+SELECT lastname, description, amount FROM purchases, customer, product WHERE Customer = CID AND Product = PID;
+
+-- Query 8
+
+SELECT SUM(amount) Hommers_total_purchases FROM purchases WHERE purchases.Customer = (SELECT CID FROM customer WHERE firstname = "Homer");
+
+-- Query 9
+
+SELECT firstname, lastname, SUM(amount) totalOrders FROM purchases, customer WHERE Customer = CID GROUP BY CID; 
+
+-- Query 10
+
+SELECT product.description, product.quantity FROM product WHERE NOT EXISTS (SELECT Product FROM purchases WHERE product.PID = purchases.Product);
+
+-- Query 11
+
+SELECT description, quantity FROM product WHERE PID NOT IN (
+SELECT PID FROM product, (SELECT Product FROM purchases WHERE Customer = (SELECT CID FROM customer WHERE firstname = "Fred" AND lastname = "Flintstone")) temp1 
+WHERE product.PID = temp1.Product);
+
+-- Query 12
+SELECT a.firstname, a.lastname , c.firstname, c.lastname  FROM agent a , customer c WHERE a.city= c.city;
+
+-- Query 13
+SELECT SUM(amount) amountSold FROM purchases WHERE Product = (SELECT PID FROM product WHERE description = "Knee pads");
+
+-- Query 14
+SELECT Product FROM (SELECT Product, COUNT(Product) popularity FROM purchases GROUP BY Product) temp1 WHERE popularity >= 3;
+
+
+-- Query 15
+SELECT agentID FROM customer, (SELECT Customer FROM purchases WHERE Product = (SELECT PID FROM product WHERE description = "Knee pads")) temp1 WHERE customer.CID = temp1.Customer;
+

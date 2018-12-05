@@ -1,0 +1,35 @@
+#homerMoney{
+	width: 300px;
+	height: auto;
+	border-radius: 25%;
+}
+
+h1{
+	color: #631B7C;
+	font-family: "Georgia" , serif;
+	background-color: #d5f4e6;
+}
+
+.head{
+	color: #732B8C;
+	font-family: "Georgia" , serif;
+	font-size: 22px;
+	border-colorl: black;
+	border-style: groove;
+	border-padding: 0px;
+	text-align: center;
+}
+.right{
+	float: right;
+	width:350px;
+	overflow:hidden;		
+}
+
+.left{
+	width:283px;
+	overflow:hidden;
+
+}
+.inter{
+	background : #d5f4e6;
+}

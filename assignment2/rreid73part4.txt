@@ -1,0 +1,24 @@
+-- Ryley Reid rreid73 part4 
+USE rreid73assign2db;
+
+SELECT *FROM product;
+SELECT *FROM customer;
+SELECT *FROM purchases;
+SELECT *FROM agent;
+
+-- create a view for all the shopping done by our customers 
+CREATE VIEW shoping AS 
+SELECT c.firstname, c.lastname, p.description, pur.amount, pur.amount * p.price price 
+FROM product p, customer c, purchases pur WHERE c.CID = pur.Customer AND p.PID = pur.Product ORDER BY c.lastname;
+
+-- show the view
+SELECT *FROM shoping;
+SELECT *FROM shoping WHERE price > 100;
+
+-- delete the following rows
+SELECT *FROM product;
+DELETE FROM product WHERE description = "hat";
+SELECT *from product;
+
+-- The Agent was not removable because he has a foreign key in another table. On top of that the table uses
+-- NOT NULL for that attribute. This means that the section cant be blank and the agent in question cant be deleted. 

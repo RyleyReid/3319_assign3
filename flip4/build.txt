@@ -1,0 +1,1 @@
+sudo mysql --verbose -psherman < make.txt  > flipme.txt 2>&1

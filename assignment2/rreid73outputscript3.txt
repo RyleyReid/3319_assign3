@@ -1,0 +1,136 @@
+Warning: Using a password on the command line interface can be insecure.
+--------------
+SELECT DISTINCT description FROM product
+--------------
+
+description
+Bike
+Socks
+hat
+Elbow pads
+Knee Pads
+Roller Blades
+Helmet
+--------------
+SELECT DISTINCT city FROM customer
+--------------
+
+city
+Boston
+Springfield
+Kypto
+Providence
+--------------
+SELECT *FROM agent ORDER BY city
+--------------
+
+AID	firstname	lastname	city	commission
+33	David	Letterman	Bedrock	100
+11	Regis	Philbin	Boston	33
+22	Courtney	Cox	New York	25
+12	Rosie	Cox	Ottawa	50
+66	Rosie	ODonnell	Ottawa	100
+99	Hugh	Grant	Springfield	16
+55	Ryley	Reid	Whitby	1
+--------------
+SELECT firstname, lastname FROM customer WHERE city = "Springfield"
+--------------
+
+firstname	lastname
+Monty	Burns
+Homer	Simpson
+Sideshow	Bob
+--------------
+SELECT lastname FROM customer WHERE agentID =(SELECT AID FROM agent WHERE firstname = "Regis")
+--------------
+
+lastname
+Rubble
+Flintstone
+--------------
+SELECT description FROM product WHERE description LIKE "%Pad%" OR description LIKE "%pad%"
+--------------
+
+description
+Elbow pads
+Knee Pads
+--------------
+SELECT lastname, description, amount FROM purchases, customer, product WHERE Customer = CID AND Product = PID
+--------------
+
+lastname	description	amount
+Rubble	Elbow pads	10
+Griffens	Socks	14
+Griffens	Elbow pads	19
+Flintstone	Elbow pads	2
+Flintstone	Knee Pads	2
+Simpson	Helmet	20
+Bob	Socks	5
+Bob	Elbow pads	5
+Bob	Knee Pads	5
+Bob	Helmet	5
+--------------
+SELECT SUM(amount) Hommers_total_purchases FROM purchases WHERE purchases.Customer = (SELECT CID FROM customer WHERE firstname = "Homer")
+--------------
+
+Hommers_total_purchases
+20
+--------------
+SELECT firstname, lastname, SUM(amount) totalOrders FROM purchases, customer WHERE Customer = CID GROUP BY CID
+--------------
+
+firstname	lastname	totalOrders
+Barney	Rubble	10
+Peter	Griffens	33
+Fred	Flintstone	4
+Homer	Simpson	20
+Sideshow	Bob	20
+--------------
+SELECT product.description, product.quantity FROM product WHERE NOT EXISTS (SELECT Product FROM purchases WHERE product.PID = purchases.Product)
+--------------
+
+description	quantity
+Bike	200
+hat	100
+Roller Blades	89
+--------------
+SELECT description, quantity FROM product WHERE PID NOT IN (
+SELECT PID FROM product, (SELECT Product FROM purchases WHERE Customer = (SELECT CID FROM customer WHERE firstname = "Fred" AND lastname = "Flintstone")) temp1 
+WHERE product.PID = temp1.Product)
+--------------
+
+description	quantity
+Bike	200
+Socks	100
+hat	100
+Roller Blades	89
+Helmet	30
+--------------
+SELECT a.firstname, a.lastname , c.firstname, c.lastname  FROM agent a , customer c WHERE a.city= c.city
+--------------
+
+firstname	lastname	firstname	lastname
+Regis	Philbin	Barney	Rubble
+Hugh	Grant	Monty	Burns
+Regis	Philbin	Fred	Flintstone
+Hugh	Grant	Homer	Simpson
+Hugh	Grant	Sideshow	Bob
+--------------
+SELECT SUM(amount) amountSold FROM purchases WHERE Product = (SELECT PID FROM product WHERE description = "Knee pads")
+--------------
+
+amountSold
+7
+--------------
+SELECT Product FROM (SELECT Product, COUNT(Product) popularity FROM purchases GROUP BY Product) temp1 WHERE popularity >= 3
+--------------
+
+Product
+66
+--------------
+SELECT agentID FROM customer, (SELECT Customer FROM purchases WHERE Product = (SELECT PID FROM product WHERE description = "Knee pads")) temp1 WHERE customer.CID = temp1.Customer
+--------------
+
+agentID
+11
+66
